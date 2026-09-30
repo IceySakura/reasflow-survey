@@ -1,0 +1,28 @@
+# Design and evidence boundary
+
+The default is one writer with native Web research, source reading, a dynamic plan, and direct manuscript editing. This preserves the model's demonstrated strengths in taxonomy, chronology, comparison, and prose. The repository adds only checks that are hard to do reliably by memory: canonical bibliography identity, citation resolution, TeX/PDF delivery, and a small source-first review of consequential claims.
+
+## Decisions inherited from the earlier work
+
+| Observation | Design consequence |
+|---|---|
+| GPT-5.6-Sol `ReaScholar+S2` vs `S2-only` gave a small positive long-survey macro in one later three-task test, but all three related-works results were negative; an earlier three-task test was broadly negative. | Neither S2 nor ReaScholar is a mandatory stage. Do not compress a generated long survey into related works by a fixed handoff. Write the requested output directly. |
+| The Codex-first canary improved after removing staged writing, frozen outlines, worker handoff, and large upfront paper-card pools. It used GPT-5.6-Terra, not Sol. | One model owns research and writing. Tools supply evidence on demand, never a prescribed taxonomy or section plan. |
+| The original canary's `s2-only` profile did not establish that S2 calls caused the gain. In a small later probe, Web found the tested original papers, while anonymous S2 returned irrelevant items or HTTP 429. | Native Web is default discovery. S2 stays an optional escape hatch for a concrete graph or metadata need. |
+| Mathematical errors can survive syntax and bibliography gates; figures can introduce their own scientific errors. | Verify central equations, conditions, and comparison units against primary sources. Use figure tooling only when a figure serves the paper and audit its individual claims. |
+
+Local source reports: `/home/iceysakura/lab/paper_gen/reasflow-workspaces/runs/2026-08-15-gpt56sol-additive-real-survey-ab/RESULT.md`, `/home/iceysakura/lab/paper_gen/reasflow-dev/docs/codex_first_parity_results_20260827_zh.md`, and `/home/iceysakura/lab/paper_base/research_handoff/SURVEY_AGENT_WEB_VS_S2_PROBE_20260930.md`. These are design provenance, not runtime dependencies.
+
+## Minimal execution contract
+
+1. Establish the actual deliverable: full survey or embeddable related works; respect user-specified scope and cutoff.
+2. Search iteratively. Find original works, direct successors, and contradictory or partially resolving work. Open primary papers for consequential claims. Keep bibliographic identities distinct from search-result rank.
+3. Write directly in the requested format. A full survey needs a clear organizing question, defensible scope, meaningful families, common comparison axes, evidence-rich sections, and bounded open questions. Related works needs the closest alternatives and a precise connection to the user's paper; it need not reproduce a full survey's taxonomy or future-work agenda.
+4. Before delivery, inspect a handful of claims whose failure would materially change the paper: theorem conditions, rates and counted units, method priority, or field-wide absence. Record the source location or bounded search behind each. Do not manufacture a fixed number of claims or internal records.
+5. Run publication checks, compile if TeX/PDF is requested, inspect the final PDF, and repair observed defects locally. Report unresolved source or metadata uncertainty.
+
+## Out of the default path
+
+No mandatory S2 search budget, precomputed candidate pool, Domain-to-outline conversion, frozen outline, multiple writing workers, separate related-works compressor, exhaustive claim ledger, figure quota, or mandatory long-form output when the user asked for a section. Optional source and design tools may be used for a concrete need.
+
+The repository targets GPT-5.6-Sol and later strong models by using a short outcome contract rather than detailed step-by-step prompt control. It does not claim a new matched end-to-end superiority result. Before claiming that a future release beats the original Survey agent, compare full survey and related-works tasks under matched model, source access, output requirements, evaluation, and budget, including failed deliveries and costs.

@@ -1,0 +1,4 @@
+# Project-local instructions; select the model/provider in the user's Codex config.
+developer_instructions = '''
+This project uses reasflow-survey for literature surveys and related-work writing. Be the single research and writing owner. Read .agents/skills/reasflow-survey/SKILL.md for a survey or related-works task. Follow the user's scope, format, cutoff, and delivery requirements. Use native Web research and primary papers by default; call extra evidence tools only for a specific unresolved need. Do not impose a fixed multi-agent workflow or a paper-count quota that the user did not request. Validate the actual manuscript and bibliography before delivery.
+'''
