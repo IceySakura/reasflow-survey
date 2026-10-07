@@ -11,7 +11,7 @@ The default is one writer with native Web research, source reading, a dynamic pl
 | The original canary's `s2-only` profile did not establish that S2 calls caused the gain. In a small later probe, Web found the tested original papers, while anonymous S2 returned irrelevant items or HTTP 429. | Native Web is default discovery. S2 stays an optional escape hatch for a concrete graph or metadata need. |
 | Mathematical errors can survive syntax and bibliography gates; figures can introduce their own scientific errors. | Verify central equations, conditions, and comparison units against primary sources. Use figure tooling only when a figure serves the paper and audit its individual claims. |
 
-Local source reports: `/home/iceysakura/lab/paper_gen/reasflow-workspaces/runs/2026-08-15-gpt56sol-additive-real-survey-ab/RESULT.md`, `/home/iceysakura/lab/paper_gen/reasflow-dev/docs/codex_first_parity_results_20260827_zh.md`, and `/home/iceysakura/lab/paper_base/research_handoff/SURVEY_AGENT_WEB_VS_S2_PROBE_20260930.md`. These are design provenance, not runtime dependencies.
+The underlying comparison reports remain with the original research workspaces and are not runtime dependencies or part of this distribution. The public-facing conclusions above are deliberately narrower than a matched superiority claim.
 
 ## Minimal execution contract
 

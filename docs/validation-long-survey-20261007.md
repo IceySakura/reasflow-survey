@@ -1,6 +1,6 @@
 # Long-form Survey delivery, 2026-10-07
 
-The preserved workspace is `workspaces/full_survey_20261007/`. It contains a long-form English survey of the extragradient family for monotone variational inequalities and inclusions, with convex-concave game connections and a 2026-07-31 literature cutoff. The earlier five-page smoke manuscript was used only as a discovery seed.
+The preserved local development workspace is `workspaces/full_survey_20261007/`; it is intentionally excluded from the Git distribution. It contains a long-form English survey of the extragradient family for monotone variational inequalities and inclusions, with convex-concave game connections and a 2026-07-31 literature cutoff. The earlier five-page smoke manuscript was used only as a discovery seed.
 
 The final manuscript is `survey/survey.tex` plus ten included section files, `references.bib`, and `survey/survey.pdf`. It is 25 PDF pages, with 17 pages before the bibliography and approximately 11,016 main-text word tokens measured from `pdftotext -layout` before the References heading. The paper cites 113 distinct papers in the text; all 113 bibliography entries are cited. The normal survey publication check passed with its unlowered 90-citation floor, no missing citation keys or detected duplicate identities, and successful Tectonic compilation. The final PDF SHA-256 is `3675733ef67c460ca9e6346edaa099b31ec37265a24cdc7deb09292fb6abfd87`.
 
