@@ -1,0 +1,9 @@
+# Long-form Survey delivery, 2026-10-07
+
+The preserved workspace is `workspaces/full_survey_20261007/`. It contains a long-form English survey of the extragradient family for monotone variational inequalities and inclusions, with convex-concave game connections and a 2026-07-31 literature cutoff. The earlier five-page smoke manuscript was used only as a discovery seed.
+
+The final manuscript is `survey/survey.tex` plus ten included section files, `references.bib`, and `survey/survey.pdf`. It is 24 PDF pages, with 17 pages before the bibliography and approximately 10,619 main-text word tokens measured from `pdftotext -layout` before the References heading. The paper cites 113 distinct papers in the text; all 113 bibliography entries are cited. The normal survey publication check passed with its unlowered 90-citation floor, no missing citation keys or detected duplicate identities, and successful Tectonic compilation. The final PDF SHA-256 is `8ecb467ad6466d0475e8bd22d41c5aeff31b0acc67c3c0c4038ba730f1f4a801`.
+
+Start manual review with `survey/survey.pdf`, `DELIVERY.md`, and `research/source_audit.md`. Source PDFs and extracted text for consequential claims are retained under `research/downloads/primary/`; the original run's JSONL events and stderr are under `logs/`. An independent post-generation read found and repaired two mathematical inequalities and reformatted two comparison tables. The details, including an explicit rotation-operator counterexample to the original EG descent formula, are recorded in the source audit. The untouched generated PDF and checker report before those corrections are preserved in `build/pre_independent_audit/`.
+
+The source audit documents theorem-level checks for pivotal comparisons and a DOI identity pass, but neither it nor the mechanical gate certifies every statement across 113 papers. This is one full-survey delivery, not a matched performance comparison with another survey agent.
