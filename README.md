@@ -7,7 +7,7 @@ The agent has two outputs:
 - **Full survey:** a substantial, self-contained review paper with a coherent field map, source-grounded comparisons, references, and a compiled PDF.
 - **Related works:** a section that can be inserted into an existing paper, with its own citations and an optional preview PDF.
 
-The requested topic, audience, cutoff, venue, length, must-cover works, and output format take precedence. If the task leaves them open, the agent chooses sensible targets from the field's size and tells the user what it chose. The long-paper targets used by the original Survey workflow (roughly 10,000 words and 100 relevant papers) remain supported; they are targets for an appropriately broad assignment, not universal validity gates. A related-works section can be short or as substantial as the user's paper needs.
+The requested topic, audience, cutoff, venue, length, must-cover works, and output format take precedence. For an unqualified **full survey**, the default is a detailed 10,000–15,000-word paper with roughly 100 distinct, relevant papers cited in the argument (normally 90–110). A narrow topic should be placed in its directly relevant neighboring literature rather than silently reduced to a five-page overview; if the evidence still cannot support the target, the agent reports the shortfall. A Related Works section remains a separate, usually much shorter deliverable.
 
 ## Why this version is smaller
 
@@ -26,7 +26,7 @@ The installer adds `.codex/config.toml`, `.codex/agents/survey.toml`, and `.agen
 Example requests inside an installed project:
 
 ```text
-Write a full survey of decentralized optimization through July 2026. Compare assumptions, convergence criteria, and communication costs. Deliver LaTeX, bibliography, and PDF.
+Write a full survey of decentralized optimization through July 2026. Compare assumptions, convergence criteria, and communication costs. Deliver the default long-form paper with about 100 substantively cited papers, LaTeX, bibliography, and PDF.
 ```
 
 ```text
@@ -41,7 +41,7 @@ python3 .agents/skills/reasflow-survey/scripts/publication.py --mode related --c
 python3 .agents/skills/reasflow-survey/scripts/publication.py --mode both --tectonic /path/to/tectonic
 ```
 
-The checker writes `build/publication_report.json`. With a TeX engine available, it also builds preview PDFs. `--check-only` runs offline structural, citation, and duplicate-identity checks without requiring a compiler. For a particular assignment, `--min-citations` can enforce an agreed coverage floor; the default is zero so a citation count cannot substitute for relevance.
+The checker writes `build/publication_report.json`. With a TeX engine available, it also builds preview PDFs. `--check-only` runs offline structural, citation, and duplicate-identity checks without requiring a compiler. Its default distinct-citation floor is 90 for a full survey and zero for Related Works; `--min-citations N` overrides it for an explicitly different scope. The count cannot establish relevance or depth, so the agent must also inspect the argument and sources.
 Use `--bib path/to/existing.bib` when integrating a Related Works section into a paper with an existing bibliography.
 
 ## Optional evidence tools
@@ -49,6 +49,8 @@ Use `--bib path/to/existing.bib` when integrating a Related Works section into a
 Native Web search and primary sources are the default. Use Semantic Scholar only for a specific unresolved identity, metadata, or citation-neighbor question when its service is available; use ReaScholar only when structured mathematical evidence is part of the task. Neither is loaded or queried automatically. A search result is a lead, not proof of a theorem, historical priority, or an absence claim.
 
 This repository does not copy the original multi-agent paper pipeline, cached corpora, experimental runners, hidden evaluators, or provider credentials.
+
+The preserved [2026-09-30 smoke tests](SMOKE_TESTS_20260930.md) deliberately requested a short 1,800–2,400-word Survey with an eight-citation floor. Their five-page result shows that the basic pipeline can deliver a PDF; it does not meet the current default full-survey contract. The workspaces retain the earlier installed skill and checker as historical artifacts.
 
 ## Development
 

@@ -24,6 +24,7 @@ CITATION = re.compile(
     r"(?:\s*\[[^\]]*\]){0,2}\s*\{([^}]*)\}"
 )
 INPUT = re.compile(r"\\(?:input|include)\s*\{([^}]+)\}")
+DEFAULT_CITATION_FLOORS = {"survey": 90, "related": 0}
 
 
 def normalized_text(value: str) -> str:
@@ -184,6 +185,7 @@ def inspect_manuscript(kind: str, root: Path, bib_keys: set[str], min_citations:
         "source": str(source),
         "standalone": "\\documentclass" in active_raw,
         "citation_count": len(citations),
+        "citation_floor": min_citations,
         "citation_keys": sorted(citations),
         "errors": errors,
         "ok": not errors,
@@ -255,7 +257,7 @@ def build_report(
     mode: str,
     check_only: bool,
     tectonic_requested: str,
-    min_citations: int,
+    min_citations: int | None,
     bibliography: Path = Path("references.bib"),
 ) -> dict[str, object]:
     root = root.resolve()
@@ -274,7 +276,10 @@ def build_report(
     if not entries:
         errors.append("bibliography has no parsed entries")
     selected = ["survey", "related"] if mode == "both" else [mode]
-    manuscripts = {kind: inspect_manuscript(kind, root, set(keys), min_citations) for kind in selected}
+    manuscripts = {}
+    for kind in selected:
+        citation_floor = DEFAULT_CITATION_FLOORS[kind] if min_citations is None else min_citations
+        manuscripts[kind] = inspect_manuscript(kind, root, set(keys), citation_floor)
     valid = not errors and all(item["ok"] for item in manuscripts.values())
     compilation: dict[str, object] = {}
     if valid and not check_only:
@@ -303,10 +308,13 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--mode", choices=("survey", "related", "both"), required=True)
     parser.add_argument("--check-only", action="store_true")
     parser.add_argument("--tectonic", default="")
-    parser.add_argument("--min-citations", type=int, default=0)
+    parser.add_argument(
+        "--min-citations", type=int, default=None,
+        help="override the default distinct-citation floor (survey: 90; related: 0)",
+    )
     parser.add_argument("--bib", type=Path, default=Path("references.bib"), help="BibTeX file, relative to --workspace by default")
     args = parser.parse_args(argv)
-    if args.min_citations < 0:
+    if args.min_citations is not None and args.min_citations < 0:
         parser.error("--min-citations must be nonnegative")
     try:
         report = build_report(args.workspace, args.mode, args.check_only, args.tectonic, args.min_citations, args.bib)

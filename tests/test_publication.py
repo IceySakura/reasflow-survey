@@ -87,6 +87,35 @@ class PublicationTests(unittest.TestCase):
         self.assertEqual(self.run_checker("related")[0].returncode, 0)
         self.assertEqual(self.run_checker("related", "--min-citations", "2")[0].returncode, 1)
 
+    def test_full_survey_default_rejects_short_overview_but_allows_explicit_short_scope(self) -> None:
+        (self.root / "survey/survey.tex").write_text(
+            r"\documentclass{article}\begin{document}Evidence \cite{sourceA}.\bibliography{../references}\end{document}",
+            encoding="utf-8",
+        )
+        result, report = self.run_checker("survey")
+        self.assertEqual(result.returncode, 1)
+        self.assertEqual(report["manuscripts"]["survey"]["citation_floor"], 90)
+        self.assertTrue(any("below requested floor 90" in error for error in report["manuscripts"]["survey"]["errors"]))
+
+        result, report = self.run_checker("survey", "--min-citations", "1")
+        self.assertEqual(result.returncode, 0, result.stdout)
+        self.assertEqual(report["manuscripts"]["survey"]["citation_floor"], 1)
+
+    def test_combined_mode_keeps_related_works_floor_separate(self) -> None:
+        (self.root / "survey/survey.tex").write_text(
+            r"\documentclass{article}\begin{document}Evidence \cite{sourceA}.\bibliography{../references}\end{document}",
+            encoding="utf-8",
+        )
+        (self.root / "related_works/related_works.tex").write_text(
+            r"\section{Related Work}Evidence \cite{sourceA}.", encoding="utf-8"
+        )
+        result, report = self.run_checker("both")
+        self.assertEqual(result.returncode, 1)
+        self.assertEqual(report["manuscripts"]["survey"]["citation_floor"], 90)
+        self.assertFalse(report["manuscripts"]["survey"]["ok"])
+        self.assertEqual(report["manuscripts"]["related"]["citation_floor"], 0)
+        self.assertTrue(report["manuscripts"]["related"]["ok"])
+
     def test_inline_bib_fields_and_commented_citations(self) -> None:
         (self.root / "references.bib").write_text(
             "@article{sourceA, title={A Result {With} Conditions}, author={Smith, Alice and Jones, Bob}, year={2022}, doi={10.1000/example.a}}\n"
